@@ -34,7 +34,7 @@ def crear_tablero(n_filas: int, n_columnas: int) -> list[list[int]]:
     for f in range(n_filas):
         fila = []
         for c in range(n_columnas):
-            fila.append(c+((len(tablero)*n_columnas)+1))
+            fila.append(c+((f*n_columnas)+1))
         tablero.append(fila)
     return tablero
 
@@ -154,11 +154,9 @@ def esta_ordenado(tablero: list[list[int]]) -> bool:
         - `tablero` es una lista de lista de enteros de cualquier dimensión.
         - Los elementos de `tablero` no tienen números repetidos.
     """
-    filas=len(tablero)
-    columnas=len(tablero[0])
-    if tablero==(crear_tablero(filas, columnas)):
-        return True
-    return False
+    filas = len(tablero)
+    columnas = len(tablero[0])
+    return tablero == crear_tablero(filas, columnas)
 
 
 def mezclar_tablero(tablero: list[list[int]]):
@@ -170,13 +168,16 @@ def mezclar_tablero(tablero: list[list[int]]):
     PRECONDICIONES:
         - `tablero` es una lista de lista de enteros de cualquier dimensión.
     """
-    filas=len(tablero)
-    columnas=len(tablero[0])
-    for i in range(random.randint(50, 100)):
-        rotar_abajo(tablero, random.randint(0, columnas-1)) 
-        rotar_arriba(tablero, random.randint(0, columnas-1)) 
-        rotar_derecha(tablero, random.randint(0, filas-1)) 
-        rotar_izquierda(tablero, random.randint(0, filas-1))
+    filas = len(tablero)
+    columnas = len(tablero[0])
+    z = 100
+    for i in range(z):
+        eleccion = random.choice([rotar_abajo, rotar_arriba, rotar_derecha, rotar_izquierda])
+        if eleccion == rotar_abajo or eleccion == rotar_arriba:
+            eleccion(tablero, random.randint(0, columnas-1))
+        else:
+            eleccion(tablero, random.randint(0, filas-1))
+
 
 def mostrar_por_pantalla(tablero: list[list[int]]):
     """
